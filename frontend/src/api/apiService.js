@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8082/api';
+// Use the environment variable if available, otherwise default to local backend port 8082
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8082/api';
 
 const api = axios.create({
   baseURL: API_URL,
