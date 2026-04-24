@@ -15,4 +15,4 @@ COPY --from=build /app/target/*.jar app.jar
 RUN mkdir -p /tmp/uploads
 
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar","--spring.profiles.active=prod"]
+ENTRYPOINT ["java","-Xmx256m","-jar","app.jar","--spring.profiles.active=prod"]
