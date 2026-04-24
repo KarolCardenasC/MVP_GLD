@@ -1,0 +1,18 @@
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# Java / Maven
+backend/target/
+backend/.mvn/
+backend/*.jar
+backend/*.war
+
+# IDEs and Tools
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
