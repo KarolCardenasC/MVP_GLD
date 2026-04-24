@@ -8,17 +8,18 @@ const SolicitudTramitePage = () => {
   const navigate = useNavigate();
   const tramite = location.state?.tramite; 
 
+  const solicitud = location.state?.solicitud; 
+
   const [step, setStep] = useState(1);
-  const [solicitudId, setSolicitudId] = useState(null); // Para guardar borradores
+  const [solicitudId, setSolicitudId] = useState(solicitud?.id || null); // Para guardar borradores
   const [folioResult, setFolioResult] = useState('');
   
   // Step 1: Form Data
-  const [formData, setFormData] = useState({
-    asunto: '',
-    cedula: '',
-    fechaNacimiento: '',
-    detalle: ''
-  });
+  const initialData = solicitud?.datosFormulario 
+    ? JSON.parse(solicitud.datosFormulario) 
+    : { asunto: '', cedula: '', fechaNacimiento: '', detalle: '' };
+
+  const [formData, setFormData] = useState(initialData);
   const [formErrors, setFormErrors] = useState({});
 
   // Step 2: Docs
@@ -101,6 +102,7 @@ const SolicitudTramitePage = () => {
         setSolicitudId(res.data.data.id);
         alert('Borrador creado correctamente');
       }
+      navigate('/dashboard');
     } catch (error) {
       alert('Error al guardar borrador: ' + (error.response?.data?.message || error.message));
     } finally {

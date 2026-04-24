@@ -1,5 +1,6 @@
 -- =====================================================
 -- GLD - DDL para crear las tablas
+-- Columnas alineadas con las entidades JPA
 -- =====================================================
 
 CREATE TABLE IF NOT EXISTS municipio (
@@ -37,42 +38,43 @@ CREATE TABLE IF NOT EXISTS tramite (
 
 CREATE TABLE IF NOT EXISTS solicitud_tramite (
     id BIGSERIAL PRIMARY KEY,
-    codigo_seguimiento VARCHAR(255) UNIQUE,
-    estado VARCHAR(50) NOT NULL DEFAULT 'RADICADA',
+    folio VARCHAR(20) UNIQUE,
+    tramite_id BIGINT NOT NULL REFERENCES tramite(id),
+    ciudadano_id BIGINT NOT NULL REFERENCES usuario(id),
+    estado VARCHAR(30) NOT NULL DEFAULT 'EN_REVISION',
+    datos_formulario TEXT,
     fecha_solicitud TIMESTAMP,
-    fecha_actualizacion TIMESTAMP,
-    observaciones TEXT,
-    ciudadano_id BIGINT REFERENCES usuario(id),
-    tramite_id BIGINT REFERENCES tramite(id),
-    funcionario_id BIGINT REFERENCES usuario(id)
+    fecha_estimada_resolucion DATE,
+    observaciones TEXT
 );
 
 CREATE TABLE IF NOT EXISTS documento_adjunto (
     id BIGSERIAL PRIMARY KEY,
-    nombre_archivo VARCHAR(255),
-    tipo_archivo VARCHAR(100),
-    ruta_archivo VARCHAR(500),
-    tamano BIGINT,
-    fecha_subida TIMESTAMP,
-    solicitud_id BIGINT REFERENCES solicitud_tramite(id)
+    solicitud_id BIGINT NOT NULL REFERENCES solicitud_tramite(id),
+    nombre_archivo VARCHAR(255) NOT NULL,
+    tipo_archivo VARCHAR(10) NOT NULL,
+    ruta_archivo VARCHAR(500) NOT NULL,
+    obligatorio BOOLEAN NOT NULL DEFAULT true,
+    tamano_bytes BIGINT,
+    fecha_carga TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS historial_estado (
     id BIGSERIAL PRIMARY KEY,
-    estado_anterior VARCHAR(50),
-    estado_nuevo VARCHAR(50),
-    comentario TEXT,
-    fecha_cambio TIMESTAMP,
-    solicitud_id BIGINT REFERENCES solicitud_tramite(id),
-    usuario_id BIGINT REFERENCES usuario(id)
+    solicitud_id BIGINT NOT NULL REFERENCES solicitud_tramite(id),
+    estado_anterior VARCHAR(30),
+    estado_nuevo VARCHAR(30) NOT NULL,
+    observaciones TEXT,
+    funcionario_id BIGINT REFERENCES usuario(id),
+    fecha_cambio TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS notificacion (
     id BIGSERIAL PRIMARY KEY,
-    mensaje TEXT,
-    tipo VARCHAR(50),
-    leida BOOLEAN DEFAULT false,
-    fecha TIMESTAMP,
-    usuario_id BIGINT REFERENCES usuario(id),
-    solicitud_id BIGINT REFERENCES solicitud_tramite(id)
+    usuario_id BIGINT NOT NULL REFERENCES usuario(id),
+    solicitud_id BIGINT REFERENCES solicitud_tramite(id),
+    titulo VARCHAR(200) NOT NULL,
+    mensaje TEXT NOT NULL,
+    leida BOOLEAN NOT NULL DEFAULT false,
+    fecha_creacion TIMESTAMP
 );

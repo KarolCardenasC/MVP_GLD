@@ -343,3 +343,76 @@ a:hover {
   color: var(--color-success);
   border-color: rgba(21, 128, 61, 0.2);
 }
+
+.alert-warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-color: rgba(180, 83, 9, 0.2);
+}
+
+.alert-info {
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
+  border-color: rgba(30, 58, 138, 0.2);
+}
+
+/* ===== Additional Utility Classes ===== */
+
+/* Flexbox extras */
+.flex-col { flex-direction: column; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-grow { flex-grow: 1; }
+
+/* Gap extras */
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+
+/* Text extras */
+.text-xs { font-size: 0.75rem; }
+.text-uppercase { text-transform: uppercase; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.italic { font-style: italic; }
+
+/* Spacing extras */
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-auto { margin-top: auto; }
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-8 { padding: 2rem; }
+.pt-4 { padding-top: 1rem; }
+.pl-5 { padding-left: 1.25rem; }
+
+/* Border utilities */
+.border-t { border-top: 1px solid var(--color-border); }
+.rounded { border-radius: var(--radius-md); }
+
+/* Grid extras */
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gap-y-2 { row-gap: 0.5rem; }
+.col-span-2 { grid-column: span 2 / span 2; }
+
+@media (min-width: 768px) {
+  .md\:flex-row { flex-direction: row; }
+  .md\:items-center { align-items: center; }
+  .md\:col-span-1 { grid-column: span 1 / span 1; }
+  .md\:col-span-2 { grid-column: span 2 / span 2; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Sizing */
+.h-full { height: 100%; }
+.list-disc { list-style-type: disc; }
+

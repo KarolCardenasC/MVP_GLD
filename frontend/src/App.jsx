@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import LoginPage from './pages/LoginPage';
@@ -11,10 +11,19 @@ import SolicitudTramitePage from './pages/SolicitudTramitePage';
 import SeguimientoPage from './pages/SeguimientoPage';
 import NotificacionesPage from './pages/NotificacionesPage';
 
+// Simple role guard — does NOT render a layout, just checks roles
+const RoleGuard = ({ allowedRoles }) => {
+  const { user } = useAuth();
+  if (allowedRoles && !allowedRoles.includes(user?.rol)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <Outlet />;
+};
+
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/MVP_GLD">
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginPage />} />
@@ -26,14 +35,14 @@ function App() {
             <Route path="/notificaciones" element={<NotificacionesPage />} />
             
             {/* Rutas exclusivas para Ciudadano */}
-            <Route element={<ProtectedRoute allowedRoles={['CIUDADANO']} />}>
+            <Route element={<RoleGuard allowedRoles={['CIUDADANO']} />}>
               <Route path="/tramites" element={<CatalogoTramitesPage />} />
               <Route path="/tramites/solicitar/:id" element={<SolicitudTramitePage />} />
               <Route path="/mis-solicitudes" element={<DashboardPage />} /> {/* Placeholder to prevent 404 */}
             </Route>
 
             {/* Rutas exclusivas para Funcionario */}
-            <Route element={<ProtectedRoute allowedRoles={['FUNCIONARIO', 'ADMIN']} />}>
+            <Route element={<RoleGuard allowedRoles={['FUNCIONARIO', 'ADMIN']} />}>
               <Route path="/bandeja" element={<div className="p-6">Bandeja de Funcionario (En construcción)</div>} />
             </Route>
           </Route>

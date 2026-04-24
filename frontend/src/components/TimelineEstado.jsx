@@ -52,7 +52,7 @@ const TimelineEstado = ({ historial }) => {
                 {h.observaciones || 'Sin observaciones.'}
               </p>
               
-              {h.funcionarioId && (
+              {h.funcionario && (
                 <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
                   Actualizado por funcionario asignado
                 </div>

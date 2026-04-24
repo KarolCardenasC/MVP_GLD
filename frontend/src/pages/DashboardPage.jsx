@@ -104,7 +104,18 @@ const DashboardPage = () => {
                         <div className="text-xs text-muted">Folio: {solicitud.folio}</div>
                       </td>
                       <td style={{ textAlign: 'right' }}>
-                        <span className="badge badge-default">{solicitud.estado.replace('_', ' ')}</span>
+                        {solicitud.estado === 'BORRADOR' ? (
+                          <Link 
+                            to={`/tramites/solicitar/${solicitud.tramite.id}`} 
+                            state={{ tramite: solicitud.tramite, solicitud: solicitud }}
+                            className="btn btn-outline" 
+                            style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
+                          >
+                            Continuar
+                          </Link>
+                        ) : (
+                          <span className="badge badge-default">{solicitud.estado.replace('_', ' ')}</span>
+                        )}
                       </td>
                     </tr>
                   ))}
